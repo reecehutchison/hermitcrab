@@ -12,4 +12,7 @@ func main() {
 	conn.Write([]byte("Hi Reece"))
 	n, _ := conn.Read(b)
 	fmt.Printf("%s\n", b[:n])
+	conn.Write([]byte("Bye Reece"))
+	n, _ = conn.Read(b)
+	fmt.Printf("%s\n", b[:n])
 }
