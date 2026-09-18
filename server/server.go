@@ -3,16 +3,28 @@ package main
 import (
 	"fmt"
 	"net"
+	"os"
 )
 
+const port string = "8080"
+
 func handleConnection(conn net.Conn) {
-	fmt.Println("hi")
+	b := make([]byte, 128)
+	n, _ := conn.Read(b)
+	fmt.Printf("%q\n", b[:n])
 }
 
 func main() {
-	ln, _ := net.Listen("tcp", ":8080")
+	ln, err := net.Listen("tcp", ":" + port)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+	}
+	fmt.Println("Server is listening on port", port + "...")
 	for {
-		conn, _ := ln.Accept()
+		conn, err := ln.Accept()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		}
 		go handleConnection(conn)
 	}
 }
