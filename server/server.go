@@ -10,8 +10,12 @@ const port string = "8080"
 
 func handleConnection(conn net.Conn) {
 	b := make([]byte, 128)
-	n, _ := conn.Read(b)
-	fmt.Printf("%q\n", b[:n])
+	n, err := conn.Read(b)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+	}
+	fmt.Printf("client '%s' : '%s'\n", conn.RemoteAddr().String(), b[:n])
+	conn.Write(b[:n])
 }
 
 func main() {
