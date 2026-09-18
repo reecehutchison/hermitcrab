@@ -20,7 +20,7 @@ func handleConnection(conn net.Conn) {
 			}
 			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		}
-		fmt.Printf("client '%s' : '%s'\n", conn.RemoteAddr().String(), b[:n])
+		fmt.Printf("'%s'\n", b[:n])
 		conn.Write(b[:n])
 	}
 }
